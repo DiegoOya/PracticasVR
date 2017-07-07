@@ -89,7 +89,7 @@ public class CameraManager : MonoBehaviour
                     if (camHTC != null) camHTC.SetActive(false);
                     canvasFTodo.SetActive(false);
                     canvasVTodo.SetActive(false);
-                    camRaton.GetComponent<Transform>().position = new Vector3(0, 0, 15);
+                    camRaton.GetComponent<Transform>().position = new Vector3(0, 1.2f, 15);
                     camRaton.GetComponent<Transform>().eulerAngles = new Vector3(0, 180, 0);
                     canvasPTodo.transform.position = new Vector3(camRaton.transform.position.x + 8, 5, 0);
                     canvasPTodo.transform.GetChild(0).gameObject.transform.position = new Vector3(camRaton.transform.position.x + 8, 5, 0);
@@ -174,7 +174,7 @@ public class CameraManager : MonoBehaviour
                     canvasFTodo.SetActive(false);
                     canvasVTodo.SetActive(false);
                     canvasOpcionesFigura.SetActive(false);
-                    camRaton.GetComponent<Transform>().position = new Vector3(15, 0, 0);
+                    camRaton.GetComponent<Transform>().position = new Vector3(15, 1.2f, 0);
                     camRaton.GetComponent<Transform>().eulerAngles = new Vector3(0, -90, 0);
                     canvasPTodo.transform.position = new Vector3(camRaton.transform.position.x - 17, camRaton.transform.position.y + 5, camRaton.transform.position.z - 9);
                     canvasPTodo.transform.GetChild(0).gameObject.transform.position = new Vector3(camRaton.transform.position.x - 17, camRaton.transform.position.y + 5, camRaton.transform.position.z - 9);
@@ -222,7 +222,7 @@ public class CameraManager : MonoBehaviour
 
             case 1: //Raton
                 if (camHTC != null) camHTC.SetActive(false);
-                if (camRaton.transform.position == new Vector3(0, 0, 15)) //Alzado
+                if (camRaton.transform.position == new Vector3(0, 1.2f, 15)) //Alzado
                 {
                     canvasPTodo.SetActive(false);
                     canvasFTodo.SetActive(false);
@@ -231,7 +231,7 @@ public class CameraManager : MonoBehaviour
                     canvasVTodo.transform.LookAt(camRaton.transform);
                     canvasVTodo.SetActive(true);
                 }
-                if (camRaton.transform.position == new Vector3(15, 0, 0)) //Perfil
+                if (camRaton.transform.position == new Vector3(15, 1.2f, 0)) //Perfil
                 {
                     canvasPTodo.SetActive(false);
                     canvasFTodo.SetActive(false);
@@ -291,7 +291,7 @@ public class CameraManager : MonoBehaviour
 
             case 1: //Raton
                 if (camHTC != null) camHTC.SetActive(false);
-                if (camRaton.transform.position == new Vector3(0, 0, 15)) //alzado
+                if (camRaton.transform.position == new Vector3(0, 1.2f, 15)) //alzado
                 {
                     canvasPTodo.SetActive(false);
                     canvasVTodo.SetActive(false);
@@ -300,7 +300,7 @@ public class CameraManager : MonoBehaviour
                     canvasFTodo.transform.LookAt(camRaton.transform);
                     canvasFTodo.SetActive(true);
                 }
-                if (camRaton.transform.position == new Vector3(15, 0, 0)) //perfil
+                if (camRaton.transform.position == new Vector3(15, 1.2f, 0)) //perfil
                 {
                     canvasPTodo.SetActive(false);
                     canvasVTodo.SetActive(false);
@@ -369,7 +369,7 @@ public class CameraManager : MonoBehaviour
 
             case 1: //Raton
                 if (camHTC != null) camHTC.SetActive(false);
-                if (camRaton.transform.position == new Vector3(0, 0, 15)) //alzado
+                if (camRaton.transform.position == new Vector3(0, 1.2f, 15)) //alzado
                 {
                     if (canvasFTodo.activeInHierarchy || canvasVTodo.activeInHierarchy)
                     {
@@ -393,7 +393,7 @@ public class CameraManager : MonoBehaviour
                         canvasPTodo.SetActive(true);
                     }
                 }
-                if (camRaton.transform.position == new Vector3(15, 0, 0)) //perfil
+                if (camRaton.transform.position == new Vector3(15, 1.2f, 0)) //perfil
                 {
                     if (canvasFTodo.activeInHierarchy || canvasVTodo.activeInHierarchy)
                     {

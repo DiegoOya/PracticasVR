@@ -39,37 +39,25 @@ public class ButtonManager : MonoBehaviour
 
     public void Cubo_clicked()
     {
-        if (mandoHTC != null)
+        if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
         {
-            if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
-            {
-                mandoIzq.GetComponent<SteamVR_LaserPointer>().Cubo_pulsado();
-            }
-            else
-            {
-                mandoDer.GetComponent<SteamVR_LaserPointer>().Cubo_pulsado();
-            }
-        }else if(mandoRaton != null)
+            mandoIzq.GetComponent<SteamVR_LaserPointer>().Cubo_pulsado();
+        }
+        else
         {
-            mandoRaton.GetComponent<PlayerControllerRaton>().CuboClicked();
+            mandoDer.GetComponent<SteamVR_LaserPointer>().Cubo_pulsado();
         }
     }
 
     public void Capsula_clicked()
     {
-        if (mandoHTC != null)
+        if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
         {
-            if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
-            {
-                mandoIzq.GetComponent<SteamVR_LaserPointer>().Capsula_pulsado();
-            }
-            else
-            {
-                mandoDer.GetComponent<SteamVR_LaserPointer>().Capsula_pulsado();
-            }
-        }else if(mandoRaton != null)
+            mandoIzq.GetComponent<SteamVR_LaserPointer>().Capsula_pulsado();
+        }
+        else
         {
-            mandoRaton.GetComponent<PlayerControllerRaton>().CapsulaClicked();
+            mandoDer.GetComponent<SteamVR_LaserPointer>().Capsula_pulsado();
         }
     }
 
