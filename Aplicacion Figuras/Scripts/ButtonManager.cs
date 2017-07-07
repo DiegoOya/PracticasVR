@@ -39,49 +39,73 @@ public class ButtonManager : MonoBehaviour
 
     public void Cubo_clicked()
     {
-        if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
+        if (mandoHTC != null)
         {
-            mandoIzq.GetComponent<SteamVR_LaserPointer>().Cubo_pulsado();
-        }
-        else
+            if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
+            {
+                mandoIzq.GetComponent<SteamVR_LaserPointer>().Cubo_pulsado();
+            }
+            else
+            {
+                mandoDer.GetComponent<SteamVR_LaserPointer>().Cubo_pulsado();
+            }
+        }else if(mandoRaton != null)
         {
-            mandoDer.GetComponent<SteamVR_LaserPointer>().Cubo_pulsado();
+            mandoRaton.GetComponent<PlayerControllerRaton>().CuboClicked();
         }
     }
 
     public void Capsula_clicked()
     {
-        if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
+        if (mandoHTC != null)
         {
-            mandoIzq.GetComponent<SteamVR_LaserPointer>().Capsula_pulsado();
-        }
-        else
+            if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
+            {
+                mandoIzq.GetComponent<SteamVR_LaserPointer>().Capsula_pulsado();
+            }
+            else
+            {
+                mandoDer.GetComponent<SteamVR_LaserPointer>().Capsula_pulsado();
+            }
+        }else if(mandoRaton != null)
         {
-            mandoDer.GetComponent<SteamVR_LaserPointer>().Capsula_pulsado();
+            mandoRaton.GetComponent<PlayerControllerRaton>().CapsulaClicked();
         }
     }
 
     public void MoverClickado()
     {
-        if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
+        if (mandoHTC != null)
         {
-            mandoIzq.GetComponent<SteamVR_LaserPointer>().MoverClickado();
-        }
-        else
+            if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
+            {
+                mandoIzq.GetComponent<SteamVR_LaserPointer>().MoverClickado();
+            }
+            else
+            {
+                mandoDer.GetComponent<SteamVR_LaserPointer>().MoverClickado();
+            }
+        }else if(mandoRaton != null)
         {
-            mandoDer.GetComponent<SteamVR_LaserPointer>().MoverClickado();
+            mandoRaton.GetComponent<PlayerControllerRaton>().MoverClickado();
         }
     }
 
     public void ColorClickado()
     {
-        if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
+        if (mandoHTC != null)
         {
-            mandoIzq.GetComponent<SteamVR_LaserPointer>().ColorClickado();
-        }
-        else
+            if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
+            {
+                mandoIzq.GetComponent<SteamVR_LaserPointer>().ColorClickado();
+            }
+            else
+            {
+                mandoDer.GetComponent<SteamVR_LaserPointer>().ColorClickado();
+            }
+        }else if(mandoRaton != null)
         {
-            mandoDer.GetComponent<SteamVR_LaserPointer>().ColorClickado();
+            mandoRaton.GetComponent<PlayerControllerRaton>().ColorClickado();
         }
     }
 

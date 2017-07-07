@@ -22,7 +22,7 @@ public class CameraManager : MonoBehaviour
             case 0: //HTC
                 canvasFTodo.SetActive(false);
                 canvasVTodo.SetActive(false);
-                canvasOpcionesFigura.SetActive(false);
+                //canvasOpcionesFigura.SetActive(false);
                 canvasRotacion.SetActive(false);
                 canvasMira.SetActive(false);
                 if (camRaton != null) camRaton.SetActive(false);
@@ -32,7 +32,7 @@ public class CameraManager : MonoBehaviour
             case 1: //Raton
                 canvasFTodo.SetActive(false);
                 canvasVTodo.SetActive(false);
-                canvasOpcionesFigura.SetActive(false);
+                //canvasOpcionesFigura.SetActive(false);
                 canvasRotacion.SetActive(false);
                 if (camHTC != null) camHTC.SetActive(false);
                 if (camRaton != null) camRaton.SetActive(true);
