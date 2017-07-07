@@ -91,7 +91,9 @@ public class CameraManager : MonoBehaviour
                     canvasVTodo.SetActive(false);
                     camRaton.GetComponent<Transform>().position = new Vector3(0, 1.2f, 15);
                     camRaton.GetComponent<Transform>().eulerAngles = new Vector3(0, 180, 0);
-                    canvasPTodo.transform.position = new Vector3(camRaton.transform.position.x + 8, 5, 0);
+					PlayerControllerRaton.xRotate = 180;
+					PlayerControllerRaton.yRotate = 0;
+					canvasPTodo.transform.position = new Vector3(camRaton.transform.position.x + 8, 5, 0);
                     canvasPTodo.transform.GetChild(0).gameObject.transform.position = new Vector3(camRaton.transform.position.x + 8, 5, 0);
                     canvasPTodo.transform.LookAt(camRaton.transform);
                     canvasPTodo.SetActive(true);
@@ -133,7 +135,9 @@ public class CameraManager : MonoBehaviour
                     canvasOpcionesFigura.SetActive(false);
                     camRaton.GetComponent<Transform>().transform.position = new Vector3(0, 15, 0);
                     camRaton.GetComponent<Transform>().eulerAngles = new Vector3(90, 0, 0);
-                    canvasPTodo.transform.position = new Vector3(camRaton.transform.position.x - 8, 1, camRaton.transform.position.z + 4);
+					PlayerControllerRaton.xRotate = 0;
+					PlayerControllerRaton.yRotate = -90;
+					canvasPTodo.transform.position = new Vector3(camRaton.transform.position.x - 8, 1, camRaton.transform.position.z + 4);
                     canvasPTodo.transform.GetChild(0).gameObject.transform.position = new Vector3(camRaton.transform.position.x - 8, 0, camRaton.transform.position.z + 4);
                     canvasPTodo.transform.eulerAngles = new Vector3(270, 180, 0);
                     canvasPTodo.SetActive(true);
@@ -176,7 +180,9 @@ public class CameraManager : MonoBehaviour
                     canvasOpcionesFigura.SetActive(false);
                     camRaton.GetComponent<Transform>().position = new Vector3(15, 1.2f, 0);
                     camRaton.GetComponent<Transform>().eulerAngles = new Vector3(0, -90, 0);
-                    canvasPTodo.transform.position = new Vector3(camRaton.transform.position.x - 17, camRaton.transform.position.y + 5, camRaton.transform.position.z - 9);
+					PlayerControllerRaton.xRotate = -90;
+					PlayerControllerRaton.yRotate = 0;
+					canvasPTodo.transform.position = new Vector3(camRaton.transform.position.x - 17, camRaton.transform.position.y + 5, camRaton.transform.position.z - 9);
                     canvasPTodo.transform.GetChild(0).gameObject.transform.position = new Vector3(camRaton.transform.position.x - 17, camRaton.transform.position.y + 5, camRaton.transform.position.z - 9);
                     canvasPTodo.transform.LookAt(camRaton.transform);
                     canvasPTodo.SetActive(true);

@@ -6,34 +6,35 @@ using UnityEngine.UI;
 public class PlayerControllerRaton : MonoBehaviour
 {
 	public float range = 50f;                                     // Distance in Unity units over which the player can fire
-   
+    public GameObject prefabCubo;
+
     public delegate void puntero();
     public static puntero pointer;
-    //public event PointerEventHandler PointerIn;
-    //public event PointerEventHandler PointerOut;
+	public static float xRotate, yRotate;
+	//public event PointerEventHandler PointerIn;
+	//public event PointerEventHandler PointerOut;
 
-    private Camera fpsCam;                                        // Holds a reference to the first person camera
+	private Camera fpsCam;                                        // Holds a reference to the first person camera
 	Quaternion targetRotation;
     GameObject figura;
     GameObject[] allObjects;
     RaycastHit hit;
     private bool tieneHijo;
 	Transform previousContact = null;
-    private GameObject seleccionada;
-    private GameObject canvasFigura;
 
-    void Start()
+	void Start()
 	{
 		// Get and store a reference to our Camera by searching this GameObject and its parents
 		fpsCam = GetComponentInChildren<Camera>();
-        canvasFigura = GameObject.FindGameObjectWithTag("canvasOpciones");
+
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 
     void Update()
 	{
         allObjects = GameObject.FindObjectsOfType<GameObject>();
-        /// Comprobar si es local player en Networking
-        bool bHit;
+		/// Comprobar si es local player en Networking
+		
         MoveCamera();
 
 		//GetComponent<Transform>().LookAt(Input.mousePosition);
@@ -51,10 +52,9 @@ public class PlayerControllerRaton : MonoBehaviour
             if (child.gameObject.tag == "Figura") tieneHijo = true;
             else tieneHijo = false;
         }
-        bHit = Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, range);
         if (!tieneHijo)
         {
-            if (bHit)
+            if (Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, range))
             {
 				pointer += onPointerIn;
 				previousContact = hit.transform;
@@ -73,39 +73,26 @@ public class PlayerControllerRaton : MonoBehaviour
                         }
                     }
                 }
+				// Comprobar si es una figura y fozar con ella
 			}
         }
-
-        if (!Input.GetMouseButton(0))
+        else
         {
-            if (figura != null)
-            {
-                if (figura.transform.parent != null)
+            if (!Input.GetMouseButton(0)) {
+                if (figura != null)
                 {
-                    if (figura.transform.parent.gameObject == this.gameObject)
+                    if (figura.transform.parent != null)
                     {
-                        figura.GetComponent<Rigidbody>().isKinematic = false;
-                        figura.transform.SetParent(null);
+                        if (figura.transform.parent.gameObject == this.gameObject)
+                        {
+                            figura.GetComponent<Rigidbody>().isKinematic = false;
+                            figura.transform.SetParent(null);
+                        }
                     }
                 }
             }
         }
-
-        if (bHit)
-        {
-            if (Input.GetMouseButton(1))
-            {
-                if (hit.collider.gameObject.tag == "Figura")
-                {
-                    Debug.Log("Entra");
-                    if (!canvasFigura.activeInHierarchy) canvasFigura.SetActive(true);
-                    seleccionada = hit.collider.gameObject;
-                    PosicionCanvas(seleccionada);
-                }
-            }
-        }
-
-        if (previousContact && previousContact != hit.transform)
+		if (previousContact && previousContact != hit.transform)
 		{
 			pointer += onPointerOut;
 			previousContact = null;
@@ -144,8 +131,14 @@ public class PlayerControllerRaton : MonoBehaviour
 
 	void MoveCamera()
 	{
-        // Dependiendo de si esta en una vista u otra hay que usar el LookAt() de forma distinta
-        float sensitivity = 0.02f;
+		xRotate += Input.GetAxis("Mouse X");
+		yRotate += Input.GetAxis("Mouse Y");
+
+		transform.rotation = Quaternion.Euler(-yRotate, xRotate, 0);
+		
+		/*
+		// Dependiendo de si esta en una vista u otra hay que usar el LookAt() de forma distinta
+		float sensitivity = 0.02f;
         Vector3 vp = fpsCam.ScreenToViewportPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, fpsCam.nearClipPlane));
         vp.x -= 0.5f;
         vp.y -= 0.5f;
@@ -168,54 +161,12 @@ public class PlayerControllerRaton : MonoBehaviour
 		if (this.transform.position == new Vector3(0, 15, 0)) //Planta
 		{
 			transform.LookAt(v, Vector3.forward);
-		}
+		}*/
     }
 
     public void EsferaClicked()
     {
         figura = (GameObject)Instantiate(Resources.Load("Esfera"));
         figura.transform.SetParent(this.transform);
-    }
-
-    public void CuboClicked()
-    {
-        figura = (GameObject)Instantiate(Resources.Load("Cubo"));
-        figura.transform.SetParent(this.transform);
-    }
-
-    public void CapsulaClicked()
-    {
-        figura = (GameObject)Instantiate(Resources.Load("Capsula"));
-        figura.transform.SetParent(this.transform);
-    }
-
-    public void MoverClickado()
-    {
-        seleccionada.transform.SetParent(this.gameObject.transform);
-    }
-
-    public void ColorClickado()
-    {
-        Color newColor = new Color(Random.value, Random.value, Random.value);
-        seleccionada.GetComponent<MeshRenderer>().material.SetColor("_Color", newColor);
-    }
-
-    void PosicionCanvas(GameObject tocada)
-    {
-        if (fpsCam.transform.position == new Vector3(0, 1.2f, 15)) //alzado
-        {
-            canvasFigura.transform.LookAt(fpsCam.transform);
-            canvasFigura.transform.position = new Vector3(tocada.transform.position.x + 2, tocada.transform.position.y + 2, tocada.transform.position.z + 2);
-        }
-        if (fpsCam.transform.position == new Vector3(15, 1.2f, 0)) //perfil
-        {
-            canvasFigura.transform.LookAt(fpsCam.transform);
-            canvasFigura.transform.position = new Vector3(tocada.transform.position.x + 2, tocada.transform.position.y + 2, tocada.transform.position.z + 2);
-        }
-        if (fpsCam.transform.position == new Vector3(0, 15, 0)) //planta
-        {
-            canvasFigura.transform.LookAt(fpsCam.transform);
-            canvasFigura.transform.position = new Vector3(tocada.transform.position.x + 2, tocada.transform.position.y + 2, tocada.transform.position.z + 2);
-        }
     }
 }
