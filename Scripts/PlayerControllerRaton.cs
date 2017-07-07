@@ -19,6 +19,7 @@ public class PlayerControllerRaton : MonoBehaviour
     GameObject[] allObjects;
     RaycastHit hit;
     private bool tieneHijo;
+    Transform previousContact = null;
 
     void Start()
 	{
@@ -40,6 +41,7 @@ public class PlayerControllerRaton : MonoBehaviour
 
 		// Declare a raycast hit to store information about what our raycast has hit		
         PlayerControllerRaton.pointer -= onPointerIn;
+        PlayerControllerRaton.pointer -= onPointerOut;
         PlayerControllerRaton.pointer -= onSubmit;
         // Check if our raycast has hit anything
         foreach(Transform child in transform)
@@ -51,8 +53,9 @@ public class PlayerControllerRaton : MonoBehaviour
         {
             if (Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, range))
             {
-                pointer += onPointerIn;
-                pointer();
+            pointer += onPointerIn;
+            previousContact = hit.transform;
+            pointer();
                 if (Input.GetMouseButton(0))
                 {
                     pointer += onSubmit;
@@ -67,7 +70,6 @@ public class PlayerControllerRaton : MonoBehaviour
                         }
                     }
                 }
-                // Comprobar si es una figura y fozar con ella
             }
         }
         else
@@ -86,14 +88,34 @@ public class PlayerControllerRaton : MonoBehaviour
                 }
             }
         }
+        if (previousContact && previousContact != hit.transform)
+        {
+            Debug.Log("Entra");
+            pointer += onPointerOut;
+            previousContact = null;
+            pointer();
+        }
     }
 
     void onPointerIn()
     {
+        Debug.Log("IN");
         Button btn = hit.collider.gameObject.GetComponent<Button>();
         if (btn != null)
         {
             btn.Select();
+        }
+    }
+
+    void onPointerOut()
+    {
+        if (hit.collider!=null)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+        }
+        else
+        {
+            EventSystem.current.SetSelectedGameObject(null);
         }
     }
 
@@ -107,36 +129,44 @@ public class PlayerControllerRaton : MonoBehaviour
 
 	void MoveCamera()
 	{
-        // Dependiendo de si esta en una vista u otra hay que usar el LookAt() de forma distinta
-        float sensitivity = 0.02f;
-        Vector3 vp = fpsCam.ScreenToViewportPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, fpsCam.nearClipPlane));
-        vp.x -= 0.5f;
-        vp.y -= 0.5f;
-        vp.x *= sensitivity;
-        vp.y *= sensitivity;
-        vp.x += 0.5f;
-        vp.y += 0.5f;
-        Vector3 sp = fpsCam.ViewportToScreenPoint(vp);
+        ////////MOVER DIFERENTE DEPENDIENDO DE PLANTA ALZADO O PERFIL
+        if (this.transform.position == new Vector3(0, 0, 15)) //alzado
+        {
+            float sensitivity = 0.02f;
+            Vector3 vp = fpsCam.ScreenToViewportPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, fpsCam.nearClipPlane));
+            vp.x -= 0.5f;
+            vp.y -= 0.5f;
+            vp.x *= sensitivity;
+            vp.y *= sensitivity;
+            vp.x += 0.5f;
+            vp.y += 0.5f;
+            Vector3 sp = fpsCam.ViewportToScreenPoint(vp);
 
-        Vector3 v = fpsCam.ScreenToWorldPoint(sp);
+            Vector3 v = fpsCam.ScreenToWorldPoint(sp);
+            transform.LookAt(v, Vector3.up);
+        }
+        if (this.transform.position == new Vector3(15, 0, 0)) //perfil
+        {
 
-		if (this.transform.position == new Vector3(0, 1.2f, 15)) //Alzado
-		{
-			transform.LookAt(v, Vector3.up);
-		}
-		if (this.transform.position == new Vector3(15, 1.2f, 0)) //perfil
-		{
-			transform.LookAt(v, Vector3.up);
-		}
-		if (this.transform.position == new Vector3(0, 15, 0)) //Planta
-		{
-			transform.LookAt(v, Vector3.forward);
-		}
+        }
+
     }
 
     public void EsferaClicked()
     {
         figura = (GameObject)Instantiate(Resources.Load("Esfera"));
+        figura.transform.SetParent(this.transform);
+    }
+
+    public void CapsulaClicked()
+    {
+        figura = (GameObject)Instantiate(Resources.Load("Capsula"));
+        figura.transform.SetParent(this.transform);
+    }
+
+    public void CuboClicked()
+    {
+        figura = (GameObject)Instantiate(Resources.Load("Cubo"));
         figura.transform.SetParent(this.transform);
     }
 }

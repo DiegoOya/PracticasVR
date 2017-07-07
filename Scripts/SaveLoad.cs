@@ -34,12 +34,12 @@ public static class SaveLoad {
 	public static void Save()
 	{
 		string data = "Option = " + ControlOption.current.option;
-		File.WriteAllText(Directory.GetCurrentDirectory() + "/Assets/option.txt", data);
+		File.WriteAllText("C:/Users/Polygone/Desktop/Proyectos Unity/Prueba/Combinado Networking/Assets/Ficheros/option.txt", data);
 	}
 
 	public static void Load()
 	{
-		string data = File.ReadAllText(Directory.GetCurrentDirectory() + "/Assets/option.txt");
+		string data = File.ReadAllText("C:/Users/Polygone/Desktop/Proyectos Unity/Prueba/Combinado Networking/Assets/Ficheros/option.txt");
 		string[] split = data.Split(' ');
 		ControlOption.current.option = Int32.Parse(split[2]);
 	}
