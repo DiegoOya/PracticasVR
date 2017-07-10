@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/*Gestiona los eventos del laser del mando de las HTC para que
+ * detecte elementos con collider y en caso de que sean elementos de 
+ * la UI como botones, gestionar los eventos para ejecutar las funciones
+ * designadas por cada uno*/
 [RequireComponent(typeof(SteamVR_LaserPointer))]
 public class VRUIInput : MonoBehaviour
 {

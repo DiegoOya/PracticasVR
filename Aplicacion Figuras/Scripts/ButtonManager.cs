@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*Esta clase sirve para ejecutar la función de cada función en el dispositivo el cual haya pulsado el botón
+que puede ser tanto el mando derecho de las vive, el izquierdo o el ratón*/
 public class ButtonManager : MonoBehaviour
 {
     //public GameObject mandoIzq, mandoDer;
@@ -109,27 +112,27 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
-    public void DerechaSlider()
-    {
-        if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
-        {
-            mandoIzq.GetComponent<SteamVR_LaserPointer>().RotarDerecha();
-        }
-        else
-        {
-            mandoDer.GetComponent<SteamVR_LaserPointer>().RotarDerecha();
-        }
-    }
+    //public void DerechaSlider()
+    //{
+    //    if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
+    //    {
+    //        mandoIzq.GetComponent<SteamVR_LaserPointer>().RotarDerecha();
+    //    }
+    //    else
+    //    {
+    //        mandoDer.GetComponent<SteamVR_LaserPointer>().RotarDerecha();
+    //    }
+    //}
 
-    public void IzquierdaSlider()
-    {
-        if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
-        {
-            mandoIzq.GetComponent<SteamVR_LaserPointer>().RotarIzquierda();
-        }
-        else
-        {
-            mandoDer.GetComponent<SteamVR_LaserPointer>().RotarIzquierda();
-        }
-    }
+    //public void IzquierdaSlider()
+    //{
+    //    if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
+    //    {
+    //        mandoIzq.GetComponent<SteamVR_LaserPointer>().RotarIzquierda();
+    //    }
+    //    else
+    //    {
+    //        mandoDer.GetComponent<SteamVR_LaserPointer>().RotarIzquierda();
+    //    }
+    //}
 }

@@ -31,14 +31,14 @@ public static class SaveLoad {
 	//	}
 	//}
 
-	public static void Save()
+	public static void Save() //Escribimos fichero
 	{
 		string data = "Option = " + ControlOption.current.option;
 		File.WriteAllText(Directory.GetCurrentDirectory() + "/Assets/option.txt", data);
 	}
 
-	public static void Load()
-	{
+	public static void Load() //Leemos fichero
+    {
 		string data = File.ReadAllText(Directory.GetCurrentDirectory() + "/Assets/option.txt");
 		string[] split = data.Split(' ');
 		ControlOption.current.option = Int32.Parse(split[2]);

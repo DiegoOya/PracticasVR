@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*Este script controla en qué posición se coloca la cámara dependiendo de que vista seleccionemos*/
 public class CameraManager : MonoBehaviour
 {
     public GameObject canvasPTodo, canvasVTodo, canvasFTodo, canvasOpcionesFigura, canvasRotacion, canvasMira;

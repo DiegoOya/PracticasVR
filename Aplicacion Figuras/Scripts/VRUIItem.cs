@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+/*Añade a cualquier elemento un collider adaptado a su tamaño*/
 [RequireComponent(typeof(RectTransform))]
 public class VRUIItem : MonoBehaviour
 {

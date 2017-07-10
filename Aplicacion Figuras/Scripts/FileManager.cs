@@ -11,7 +11,7 @@ public class FileManager : MonoBehaviour {
     {
         ControlOption.current = co; 
     }
-    public void HTC()
+    public void HTC() //Si se elige la opcion HTC se escribe un 0 en el fichero
     {
         ControlOption.current.option = 0;
         SaveLoad.Save();
@@ -20,7 +20,7 @@ public class FileManager : MonoBehaviour {
         SceneManager.LoadScene("vistas");
     }
 	
-	public void Raton()
+	public void Raton() //Si se elige la opcion Raton se escribe un 1 en el fichero
     {
         ControlOption.current.option = 1;
         SaveLoad.Save();

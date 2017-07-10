@@ -19,7 +19,7 @@ public class PickupController : MonoBehaviour
     void FixedUpdate()
     {
         device = SteamVR_Controller.Input((int)trackedObj.index);
-        if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
+        if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger)) // si soltamos el trigger del mando la figura cae y le afectan las físicas
         {
             foreach (Transform child in transform)
             {

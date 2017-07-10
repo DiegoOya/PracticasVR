@@ -2,8 +2,10 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class PlayerControllerRaton : MonoBehaviour
+/*Script que controla los controles del jugador "Ratón"*/
+public class PlayerControllerRaton : NetworkBehaviour
 {
     public float range = 50f;                                     // Distance in Unity units over which the player can fire
 
@@ -16,7 +18,6 @@ public class PlayerControllerRaton : MonoBehaviour
     private Camera fpsCam;                                        // Holds a reference to the first person camera
     Quaternion targetRotation;
     GameObject figura;
-    GameObject[] allObjects;
     RaycastHit hit;
     private bool tieneHijo;
     Transform previousContact = null;
@@ -33,9 +34,12 @@ public class PlayerControllerRaton : MonoBehaviour
 
     void Update()
     {
-        allObjects = GameObject.FindObjectsOfType<GameObject>();
+        if (!isLocalPlayer) //Esto asegura que el código sólo se ejecute en la máquina local que ejecuta la aplicación
+        {
+            return;
+        }
         /// Comprobar si es local player en Networking
-        bool bHit;
+        bool bHit; 
         MoveCamera();
 
         //GetComponent<Transform>().LookAt(Input.mousePosition);
@@ -43,17 +47,17 @@ public class PlayerControllerRaton : MonoBehaviour
         // Create a vector at the center of our camera's viewport
         Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
 
-        // Declare a raycast hit to store information about what our raycast has hit		
+        /*Cancelar todas las suscripciones al evento*/		
         PlayerControllerRaton.pointer -= onPointerIn;
         PlayerControllerRaton.pointer -= onPointerOut;
         PlayerControllerRaton.pointer -= onSubmit;
-        // Check if our raycast has hit anything
-        foreach (Transform child in transform)
+
+        foreach (Transform child in transform) //Si el ratón ya tiene un hijo, no podrá coger otra figura
         {
             if (child.gameObject.tag == "Figura") tieneHijo = true;
             else tieneHijo = false;
         }
-        bHit = Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, range);
+        bHit = Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, range); // Check if our raycast has hit anything
         if (!tieneHijo)
         {
             if (bHit)
@@ -61,11 +65,15 @@ public class PlayerControllerRaton : MonoBehaviour
                 pointer += onPointerIn;
                 previousContact = hit.transform;
                 pointer();
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButtonDown(0))
                 {
                     pointer += onSubmit;
                     pointer();
-                    if (hit.collider.gameObject.tag == "Figura")
+                }
+                if (Input.GetMouseButton(0))
+                {
+                    //Comprobamos que el collider con el que choca el raycast es una figura, si es así se procesa
+                    if (hit.collider.gameObject.tag == "Figura") 
                     {
                         figura = hit.collider.gameObject;
                         if (figura.transform.parent == null)
@@ -78,7 +86,7 @@ public class PlayerControllerRaton : MonoBehaviour
             }
         }
 
-        if (!Input.GetMouseButton(0))
+        if (!Input.GetMouseButton(0)) //si dejamos de pulsar el botón izquierdo del ratón, se deja caer la figura
         {
             if (figura != null)
             {
@@ -95,11 +103,10 @@ public class PlayerControllerRaton : MonoBehaviour
 
         if (bHit)
         {
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButton(1)) //Si pulsamos botón derecho sobre una figura aparece su menú para poder mover o cambiar color
             {
                 if (hit.collider.gameObject.tag == "Figura")
                 {
-                    Debug.Log("Entra");
                     if (!canvasFigura.activeInHierarchy) canvasFigura.SetActive(true);
                     seleccionada = hit.collider.gameObject;
                     PosicionCanvas(seleccionada);
@@ -115,6 +122,7 @@ public class PlayerControllerRaton : MonoBehaviour
         }
     }
 
+    //Si es un botón con el que choca el raycast lo seleccionamos
     void onPointerIn()
     {
         Button btn = hit.collider.gameObject.GetComponent<Button>();
@@ -124,6 +132,7 @@ public class PlayerControllerRaton : MonoBehaviour
         }
     }
 
+    //Si el raycast sale del botón lo se desselecciona
     void onPointerOut()
     {
         if (hit.collider != null)
@@ -136,6 +145,7 @@ public class PlayerControllerRaton : MonoBehaviour
         }
     }
 
+    //Ejecutamos la acción asignada al botón
     void onSubmit()
     {
         if (EventSystem.current.currentSelectedGameObject != null)
@@ -144,6 +154,7 @@ public class PlayerControllerRaton : MonoBehaviour
         }
     }
 
+    //Movemos la cámara modo FPS
     void MoveCamera()
     {
         xRotate += Input.GetAxis("Mouse X");
@@ -152,35 +163,44 @@ public class PlayerControllerRaton : MonoBehaviour
         transform.rotation = Quaternion.Euler(-yRotate, xRotate, 0);
     }
 
+    //Instanciamos una esfera cuando se clicka el botón esfera y la hacemos hija del ratón
     public void EsferaClicked()
     {
         figura = (GameObject)Instantiate(Resources.Load("Esfera"));
+        NetworkServer.Spawn(figura);
         figura.transform.SetParent(this.transform);
     }
 
+    //Instanciamos un cubo cuando se clicka el botón cubo y lo hacemos hijo del ratón
     public void CuboClicked()
     {
         figura = (GameObject)Instantiate(Resources.Load("Cubo"));
+        NetworkServer.Spawn(figura);
         figura.transform.SetParent(this.transform);
     }
 
+    //Instanciamos una capsula cuando se clicka el botón capsula y la hacemos hija del ratón
     public void CapsulaClicked()
     {
         figura = (GameObject)Instantiate(Resources.Load("Capsula"));
+        NetworkServer.Spawn(figura);
         figura.transform.SetParent(this.transform);
     }
 
+    //Si se pulsa el botón mover, volvemos a hacer hija la figura del ratón
     public void MoverClickado()
     {
         seleccionada.transform.SetParent(this.gameObject.transform);
     }
 
+    //Dotamos a la figura de un color aleatorio
     public void ColorClickado()
     {
         Color newColor = new Color(Random.value, Random.value, Random.value);
         seleccionada.GetComponent<MeshRenderer>().material.SetColor("_Color", newColor);
     }
 
+    //Lleva el canvas de menú de figuras a la posición donde está la figura en la que pulsamos
     void PosicionCanvas(GameObject tocada)
     {
         if (fpsCam.transform.position == new Vector3(0, 1.2f, 15)) //alzado
