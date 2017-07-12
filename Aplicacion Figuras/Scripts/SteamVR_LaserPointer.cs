@@ -168,7 +168,7 @@ public class SteamVR_LaserPointer : MonoBehaviour
             }
         }
     }
-
+	/*
     //Si se pulsa el botón figura se instancia una esfera hija del mando
     public void Esfera_pulsado()
     {
@@ -233,7 +233,7 @@ public class SteamVR_LaserPointer : MonoBehaviour
             capsula.transform.SetParent(gameObject.transform);
         }
         cont = 0;
-    }
+    }*/
 
 
 public void MoverClickado()

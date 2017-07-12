@@ -88,6 +88,7 @@ public class PlayerControllerRaton : NetworkBehaviour
 
         if (!Input.GetMouseButton(0)) //si dejamos de pulsar el botón izquierdo del ratón, se deja caer la figura
         {
+			if(transform.childCount > 1) figura = GetComponentInChildren<CompFigura>().gameObject;
             if (figura != null)
             {
                 if (figura.transform.parent != null)
@@ -122,8 +123,8 @@ public class PlayerControllerRaton : NetworkBehaviour
         }
     }
 
-    //Si es un botón con el que choca el raycast lo seleccionamos
-    void onPointerIn()
+	//Si es un botón con el que choca el raycast lo seleccionamos
+	void onPointerIn()
     {
         Button btn = hit.collider.gameObject.GetComponent<Button>();
         if (btn != null)
@@ -161,30 +162,6 @@ public class PlayerControllerRaton : NetworkBehaviour
         yRotate += Input.GetAxis("Mouse Y");
 
         transform.rotation = Quaternion.Euler(-yRotate, xRotate, 0);
-    }
-
-    //Instanciamos una esfera cuando se clicka el botón esfera y la hacemos hija del ratón
-    public void EsferaClicked()
-    {
-        figura = (GameObject)Instantiate(Resources.Load("Esfera"));
-        NetworkServer.Spawn(figura);
-        figura.transform.SetParent(this.transform);
-    }
-
-    //Instanciamos un cubo cuando se clicka el botón cubo y lo hacemos hijo del ratón
-    public void CuboClicked()
-    {
-        figura = (GameObject)Instantiate(Resources.Load("Cubo"));
-        NetworkServer.Spawn(figura);
-        figura.transform.SetParent(this.transform);
-    }
-
-    //Instanciamos una capsula cuando se clicka el botón capsula y la hacemos hija del ratón
-    public void CapsulaClicked()
-    {
-        figura = (GameObject)Instantiate(Resources.Load("Capsula"));
-        NetworkServer.Spawn(figura);
-        figura.transform.SetParent(this.transform);
     }
 
     //Si se pulsa el botón mover, volvemos a hacer hija la figura del ratón

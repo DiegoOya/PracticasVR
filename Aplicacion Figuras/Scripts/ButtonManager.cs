@@ -10,8 +10,10 @@ public class ButtonManager : MonoBehaviour
     //public GameObject mandoIzq, mandoDer;
 
     GameObject mandoRaton, mandoHTC, mandoIzq, mandoDer;
+	public GameObject spawner;
 
-    private void Update()
+
+	private void Update()
     {
         mandoRaton = GameObject.FindGameObjectWithTag("Raton");
         mandoHTC = GameObject.FindGameObjectWithTag("HTC");
@@ -28,15 +30,15 @@ public class ButtonManager : MonoBehaviour
         {
             if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
             {
-                mandoIzq.GetComponent<SteamVR_LaserPointer>().Esfera_pulsado();
+                spawner.GetComponent<SpawnerController>().EsferaClicked(mandoIzq);
             }
             else
             {
-                mandoDer.GetComponent<SteamVR_LaserPointer>().Esfera_pulsado();
+				spawner.GetComponent<SpawnerController>().EsferaClicked(mandoDer);
             }
         }else if(mandoRaton != null)
         {
-            mandoRaton.GetComponent<PlayerControllerRaton>().EsferaClicked();
+            spawner.GetComponent<SpawnerController>().EsferaClicked(mandoRaton);
         }
     }
 
@@ -46,15 +48,15 @@ public class ButtonManager : MonoBehaviour
         {
             if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
             {
-                mandoIzq.GetComponent<SteamVR_LaserPointer>().Cubo_pulsado();
+				spawner.GetComponent<SpawnerController>().CuboClicked(mandoIzq);
             }
             else
             {
-                mandoDer.GetComponent<SteamVR_LaserPointer>().Cubo_pulsado();
+				spawner.GetComponent<SpawnerController>().CuboClicked(mandoDer);
             }
         }else if(mandoRaton != null)
         {
-            mandoRaton.GetComponent<PlayerControllerRaton>().CuboClicked();
+            spawner.GetComponent<SpawnerController>().CuboClicked(mandoRaton);
         }
     }
 
@@ -64,15 +66,15 @@ public class ButtonManager : MonoBehaviour
         {
             if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
             {
-                mandoIzq.GetComponent<SteamVR_LaserPointer>().Capsula_pulsado();
+				spawner.GetComponent<SpawnerController>().CapsulaClicked(mandoIzq);
             }
             else
             {
-                mandoDer.GetComponent<SteamVR_LaserPointer>().Capsula_pulsado();
+				spawner.GetComponent<SpawnerController>().CapsulaClicked(mandoDer);
             }
         }else if(mandoRaton != null)
         {
-            mandoRaton.GetComponent<PlayerControllerRaton>().CapsulaClicked();
+            spawner.GetComponent<SpawnerController>().CapsulaClicked(mandoRaton);
         }
     }
 

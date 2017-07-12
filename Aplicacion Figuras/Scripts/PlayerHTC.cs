@@ -7,9 +7,9 @@ public class PlayerHTC : NetworkBehaviour {
 	
     GameObject mandoIzq, mandoDer;
 
-    // Update is called once per frame
-    /*Necesitamos detectar si el jugador HTC es jugador local. Si lo es, se ejecutan los controles de HTC*/
-    void Update()
+	// Update is called once per frame
+	/*Necesitamos detectar si el jugador HTC es jugador local. Si lo es, se ejecutan los controles de HTC*/
+	void Update()
     {
         mandoIzq = transform.GetChild(0).gameObject;
         mandoDer = transform.GetChild(1).gameObject;
