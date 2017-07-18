@@ -30,7 +30,7 @@ public class SteamVR_LaserPointer : MonoBehaviour
     public event PointerEventHandler PointerIn;
     public event PointerEventHandler PointerOut;
 
-    GameObject canvasFigura;
+    GameObject canvasFigura, figura;
     Transform previousContact = null;
     GameObject seleccionada, esfera, cubo, capsula;
     SteamVR_TrackedController controller;
@@ -168,6 +168,14 @@ public class SteamVR_LaserPointer : MonoBehaviour
             }
         }
     }
+
+    //[Command]
+    //public void CmdSpawn(string fig)
+    //{
+    //    figura = (GameObject)Instantiate(Resources.Load(fig));
+    //    NetworkServer.Spawn(figura);
+    //    figura.transform.SetParent(this.transform);
+    //}
 	/*
     //Si se pulsa el botón figura se instancia una esfera hija del mando
     public void Esfera_pulsado()

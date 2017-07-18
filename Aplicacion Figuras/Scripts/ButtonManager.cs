@@ -15,6 +15,7 @@ public class ButtonManager : MonoBehaviour
 
 	private void Update()
     {
+        //Busca cada frame los PlayerPrefabs del control de teclado y raton y de las gafas HTC
         mandoRaton = GameObject.FindGameObjectWithTag("Raton");
         mandoHTC = GameObject.FindGameObjectWithTag("HTC");
         if (mandoHTC != null)
@@ -24,9 +25,10 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
+    //Si se pulsa el boton esfera se llama a la funcion que instancia una esfera en el mando correspondiente
     public void Esfera_clicked()
     {
-        if (mandoHTC != null)
+        if (mandoHTC.GetComponent<PlayerHTC>().isLocalPlayer)
         {
             if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
             {
@@ -36,15 +38,16 @@ public class ButtonManager : MonoBehaviour
             {
 				spawner.GetComponent<SpawnerController>().EsferaClicked(mandoDer);
             }
-        }else if(mandoRaton != null)
+        }else if(mandoRaton.GetComponent<PlayerControllerRaton>().isLocalPlayer)
         {
             spawner.GetComponent<SpawnerController>().EsferaClicked(mandoRaton);
         }
     }
 
+    //Si se pulsa el boton cubo se llama a la funcion que instancia un cubo en el mando correspondiente
     public void Cubo_clicked()
     {
-        if (mandoHTC != null)
+        if (mandoHTC.GetComponent<PlayerHTC>().isLocalPlayer)
         {
             if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
             {
@@ -54,15 +57,16 @@ public class ButtonManager : MonoBehaviour
             {
 				spawner.GetComponent<SpawnerController>().CuboClicked(mandoDer);
             }
-        }else if(mandoRaton != null)
+        }else if(mandoRaton.GetComponent<PlayerControllerRaton>().isLocalPlayer)
         {
             spawner.GetComponent<SpawnerController>().CuboClicked(mandoRaton);
         }
     }
 
+    //Si se pulsa el boton capsula se llama a la funcion que instancia una capsula en el mando correspondiente
     public void Capsula_clicked()
     {
-        if (mandoHTC != null)
+        if (mandoHTC.GetComponent<PlayerHTC>().isLocalPlayer)
         {
             if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
             {
@@ -72,15 +76,16 @@ public class ButtonManager : MonoBehaviour
             {
 				spawner.GetComponent<SpawnerController>().CapsulaClicked(mandoDer);
             }
-        }else if(mandoRaton != null)
+        }else if(mandoRaton.GetComponent<PlayerControllerRaton>().isLocalPlayer)
         {
             spawner.GetComponent<SpawnerController>().CapsulaClicked(mandoRaton);
         }
     }
 
+    // Si se pulsa el boton mover se asocia el objeto al mando correspondiente
     public void MoverClickado()
     {
-        if (mandoHTC != null)
+        if (mandoHTC.GetComponent<PlayerHTC>().isLocalPlayer)
         {
             if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
             {
@@ -90,15 +95,16 @@ public class ButtonManager : MonoBehaviour
             {
                 mandoDer.GetComponent<SteamVR_LaserPointer>().MoverClickado();
             }
-        }else if(mandoRaton != null)
+        }else if(mandoRaton.GetComponent<PlayerControllerRaton>().isLocalPlayer)
         {
             mandoRaton.GetComponent<PlayerControllerRaton>().MoverClickado();
         }
     }
 
+    //Si se pulsa el boton color se llama a la funcion que cambia el color de las figuras en el mando correspondiente
     public void ColorClickado()
     {
-        if (mandoHTC != null)
+        if (mandoHTC.GetComponent<PlayerHTC>().isLocalPlayer)
         {
             if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
             {
@@ -108,33 +114,9 @@ public class ButtonManager : MonoBehaviour
             {
                 mandoDer.GetComponent<SteamVR_LaserPointer>().ColorClickado();
             }
-        }else if(mandoRaton != null)
+        }else if(mandoRaton.GetComponent<PlayerControllerRaton>().isLocalPlayer)
         {
             mandoRaton.GetComponent<PlayerControllerRaton>().ColorClickado();
         }
     }
-
-    //public void DerechaSlider()
-    //{
-    //    if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
-    //    {
-    //        mandoIzq.GetComponent<SteamVR_LaserPointer>().RotarDerecha();
-    //    }
-    //    else
-    //    {
-    //        mandoDer.GetComponent<SteamVR_LaserPointer>().RotarDerecha();
-    //    }
-    //}
-
-    //public void IzquierdaSlider()
-    //{
-    //    if (mandoIzq.GetComponent<SteamVR_TrackedController>().triggerPressed)
-    //    {
-    //        mandoIzq.GetComponent<SteamVR_LaserPointer>().RotarIzquierda();
-    //    }
-    //    else
-    //    {
-    //        mandoDer.GetComponent<SteamVR_LaserPointer>().RotarIzquierda();
-    //    }
-    //}
 }

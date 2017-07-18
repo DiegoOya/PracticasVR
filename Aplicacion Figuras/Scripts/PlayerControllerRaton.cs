@@ -30,12 +30,18 @@ public class PlayerControllerRaton : NetworkBehaviour
         fpsCam = GetComponentInChildren<Camera>();
         canvasFigura = GameObject.FindGameObjectWithTag("canvasOpciones");
         Cursor.lockState = CursorLockMode.Locked;
+        if (!isLocalPlayer)
+        {
+            gameObject.GetComponentInChildren<Camera>().enabled = false;
+            return;
+        }
     }
 
     void Update()
     {
         if (!isLocalPlayer) //Esto asegura que el código sólo se ejecute en la máquina local que ejecuta la aplicación
         {
+            gameObject.GetComponentInChildren<Camera>().enabled = false;
             return;
         }
         /// Comprobar si es local player en Networking
@@ -195,5 +201,24 @@ public class PlayerControllerRaton : NetworkBehaviour
             canvasFigura.transform.LookAt(fpsCam.transform);
             canvasFigura.transform.position = new Vector3(tocada.transform.position.x + 2, tocada.transform.position.y + 2, tocada.transform.position.z + 2);
         }
+    }
+
+    // Se encarga de spawnear a las figuras en el entorno para interactuar con ellas
+    [Command]
+    public void CmdSpawn(string fig, string padre)
+    {
+        figura = (GameObject)Instantiate(Resources.Load(fig));
+        NetworkServer.Spawn(figura);
+        figura.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
+        RpcParent(figura, padre);
+        figura.GetComponent<NetworkIdentity>().RemoveClientAuthority(connectionToClient);
+    }
+
+    // Se encarga de hacer al objeto hijo del mando que corresponda
+    [ClientRpc]
+    public void RpcParent(GameObject figura, string padre)
+    {
+        figura.transform.SetParent(GameObject.FindGameObjectWithTag(padre).transform);
+        figura.GetComponent<Rigidbody>().isKinematic = true;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/*Este script controla en qué posición se coloca la cámara dependiendo de que vista seleccionemos*/
+/*Esta clase controla en qué posición se coloca la cámara dependiendo de que vista seleccionemos*/
 public class CameraManager : MonoBehaviour
 {
     public GameObject canvasPTodo, canvasVTodo, canvasFTodo, canvasOpcionesFigura, canvasRotacion, canvasMira;
@@ -16,8 +16,10 @@ public class CameraManager : MonoBehaviour
     // Use this for initialization
     public void Awake()
     {
+        //Busca los PlayerPrefabs del control de teclado y raton y de las gafas HTC
         camRaton = GameObject.FindGameObjectWithTag("Raton");
         camHTC = GameObject.FindGameObjectWithTag("HTC");
+        //Dependiendo de la opcion seleccionada inicializa los paneles y coloca al PlayerPrefab en su sitio
         switch (ControlOption.current.option)
         {
             case 0: //HTC
@@ -45,6 +47,7 @@ public class CameraManager : MonoBehaviour
 
     public void Update()
     {
+        //Busca cada frame los PlayerPrefabs del control de teclado y raton y de las gafas HTC
         camRaton = GameObject.FindGameObjectWithTag("Raton");
         camHTC = GameObject.FindGameObjectWithTag("HTC");
         if (camRaton != null) camRaton.SetActive(true);
@@ -66,14 +69,14 @@ public class CameraManager : MonoBehaviour
         }
     }
     
-
+    // Si se pulsa el boton alzado coloca al PlayerPrefab en la posicion predeterminada de la vista alzado
     public void alzado_pulsado()
     {
         switch (ControlOption.current.option) {
             case 0: //HTC
                 if (camHTC != null)
                 {
-                    if (camRaton != null) camRaton.SetActive(false);
+                    //if (camRaton != null) camRaton.SetActive(false);
                     canvasFTodo.SetActive(false);
                     canvasVTodo.SetActive(false);
                     camHTC.GetComponent<Transform>().position = new Vector3(0, 0, 15);
@@ -87,14 +90,14 @@ public class CameraManager : MonoBehaviour
             case 1:
                 if (camRaton != null)
                 {
-                    if (camHTC != null) camHTC.SetActive(false);
+                    //if (camHTC != null) camHTC.SetActive(false);
                     canvasFTodo.SetActive(false);
                     canvasVTodo.SetActive(false);
                     camRaton.GetComponent<Transform>().position = new Vector3(0, 1.2f, 15);
                     camRaton.GetComponent<Transform>().eulerAngles = new Vector3(0, 180, 0);
-					PlayerControllerRaton.xRotate = 180;
-					PlayerControllerRaton.yRotate = 0;
-					canvasPTodo.transform.position = new Vector3(camRaton.transform.position.x + 8, 5, 0);
+                    PlayerControllerRaton.xRotate = 180;
+                    PlayerControllerRaton.yRotate = 0;
+                    canvasPTodo.transform.position = new Vector3(camRaton.transform.position.x + 8, 5, 0);
                     canvasPTodo.transform.GetChild(0).gameObject.transform.position = new Vector3(camRaton.transform.position.x + 8, 5, 0);
                     canvasPTodo.transform.LookAt(camRaton.transform);
                     canvasPTodo.SetActive(true);
@@ -104,12 +107,13 @@ public class CameraManager : MonoBehaviour
         
     }
 
+    // Si se pulsa el boton planta coloca al PlayerPrefab en la posicion predeterminada de la vista planta
     public void planta_pulsado()
     {
         switch (ControlOption.current.option) {
             case 0: //HTC
                 if(camHTC != null){
-                    if (camRaton != null) camRaton.SetActive(false);
+                    //if (camRaton != null) camRaton.SetActive(false);
                     canvasFTodo.SetActive(false);
                     canvasVTodo.SetActive(false);
                     canvasOpcionesFigura.SetActive(false);
@@ -130,7 +134,7 @@ public class CameraManager : MonoBehaviour
             case 1: //Raton
                 if (camRaton != null)
                 {
-                    if (camHTC != null) camHTC.SetActive(false);
+                    //if (camHTC != null) camHTC.SetActive(false);
                     canvasFTodo.SetActive(false);
                     canvasVTodo.SetActive(false);
                     canvasOpcionesFigura.SetActive(false);
@@ -147,6 +151,7 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    // Si se pulsa el boton perfil coloca al PlayerPrefab en la posicion predeterminada de la vista perfil
     public void perfil_pulsado()
     {
         switch (ControlOption.current.option)
@@ -154,7 +159,7 @@ public class CameraManager : MonoBehaviour
             case 0: //HTC
                 if (camHTC != null)
                 {
-                    if (camRaton != null) camRaton.SetActive(false);
+                    //if (camRaton != null) camRaton.SetActive(false);
                     canvasFTodo.SetActive(false);
                     canvasVTodo.SetActive(false);
                     canvasOpcionesFigura.SetActive(false);
@@ -175,7 +180,7 @@ public class CameraManager : MonoBehaviour
             case 1: //Raton
                 if (camRaton != null)
                 {
-                    if (camHTC != null) camHTC.SetActive(false);
+                    //if (camHTC != null) camHTC.SetActive(false);
                     canvasFTodo.SetActive(false);
                     canvasVTodo.SetActive(false);
                     canvasOpcionesFigura.SetActive(false);
@@ -193,11 +198,12 @@ public class CameraManager : MonoBehaviour
         
     }
 
+    // Si se pulsa el boton vistas desactiva el panel principal y activa el de las vistas
     public void vistas_pulsado()
     {
         switch (ControlOption.current.option) {
             case 0: //HTC
-                if (camRaton != null) camRaton.SetActive(false);
+                //if (camRaton != null) camRaton.SetActive(false);
                 if (camHTC.transform.position == new Vector3(0, 0, 15)) //Alzado
                 {
                     canvasPTodo.SetActive(false);
@@ -228,7 +234,7 @@ public class CameraManager : MonoBehaviour
                 break;
 
             case 1: //Raton
-                if (camHTC != null) camHTC.SetActive(false);
+                //if (camHTC != null) camHTC.SetActive(false);
                 if (camRaton.transform.position == new Vector3(0, 1.2f, 15)) //Alzado
                 {
                     canvasPTodo.SetActive(false);
@@ -261,12 +267,13 @@ public class CameraManager : MonoBehaviour
         
     }
 
+    // Si se pulsa el boton figuras desactiva el panel principal y activa el de las figuras
     public void figuras_pulsado()
     {
         switch (ControlOption.current.option)
         {
             case 0: //HTC
-                if (camRaton != null) camRaton.SetActive(false);
+                //if (camRaton != null) camRaton.SetActive(false);
                 if (camHTC.transform.position == new Vector3(0, 0, 15)) //alzado
                 {
                     canvasPTodo.SetActive(false);
@@ -297,7 +304,7 @@ public class CameraManager : MonoBehaviour
                 break;
 
             case 1: //Raton
-                if (camHTC != null) camHTC.SetActive(false);
+                //if (camHTC != null) camHTC.SetActive(false);
                 if (camRaton.transform.position == new Vector3(0, 1.2f, 15)) //alzado
                 {
                     canvasPTodo.SetActive(false);
@@ -330,12 +337,14 @@ public class CameraManager : MonoBehaviour
         
     }
 
+
+    // Si se pulsa el boton volver desactiva el panel que esté activo y activa el principal
     public void Volver()
     {
         switch (ControlOption.current.option)
         {
             case 0: //HTC
-                if (camRaton != null) camRaton.SetActive(false);
+                //if (camRaton != null) camRaton.SetActive(false);
                 if (camHTC.transform.position == new Vector3(0, 0, 15)) //alzado
                 {
                     if (canvasFTodo.activeInHierarchy || canvasVTodo.activeInHierarchy)
@@ -375,7 +384,7 @@ public class CameraManager : MonoBehaviour
                 break;
 
             case 1: //Raton
-                if (camHTC != null) camHTC.SetActive(false);
+                //if (camHTC != null) camHTC.SetActive(false);
                 if (camRaton.transform.position == new Vector3(0, 1.2f, 15)) //alzado
                 {
                     if (canvasFTodo.activeInHierarchy || canvasVTodo.activeInHierarchy)
@@ -415,33 +424,5 @@ public class CameraManager : MonoBehaviour
                 break;
         }
         
-    }
-
-    public void Rotar()
-    {
-        switch (ControlOption.current.option)
-        {
-            case 0: //HTC
-                if (camRaton != null) camRaton.SetActive(false);
-                canvasRotacion.transform.position = canvasOpcionesFigura.transform.position;
-                canvasRotacion.transform.LookAt(camHTC.transform);
-                canvasOpcionesFigura.SetActive(false);
-                canvasRotacion.SetActive(true);
-                break;
-            case 1: //Raton
-                if (camHTC != null) camHTC.SetActive(false);
-                canvasRotacion.transform.position = canvasOpcionesFigura.transform.position;
-                canvasRotacion.transform.LookAt(camRaton.transform);
-                canvasOpcionesFigura.SetActive(false);
-                canvasRotacion.SetActive(true);
-                break;
-        }
-        
-    }
-
-    public void VolverRotar()
-    {
-        canvasRotacion.SetActive(false);
-        canvasOpcionesFigura.SetActive(true);        
     }
 }

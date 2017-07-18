@@ -6,9 +6,7 @@ using UnityEngine.Networking.NetworkSystem;
 
 /*Esta clase gestiona las comunicaciones servidor-cliente*/
 public class MyNetworkManager : NetworkManager {
-
-    //public GameObject canvas;
-
+    
     GameObject playerHtc, playerRaton;
     int playerPrefabIndex; //0 HTC y 1 Ratón
 
@@ -36,9 +34,4 @@ public class MyNetworkManager : NetworkManager {
                 break;
         }
     }
-
-    //public override void OnStopServer()
-    //{
-    //    canvas.SetActive(true);
-    //}
 }
