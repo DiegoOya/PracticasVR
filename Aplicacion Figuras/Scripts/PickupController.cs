@@ -25,7 +25,7 @@ public class PickupController : MonoBehaviour
             {
                 if (child.tag == "Figura")
                 {
-                    child.GetComponent<Rigidbody>().isKinematic = false;
+                    //child.GetComponent<Rigidbody>().isKinematic = false;
                     child.transform.SetParent(null);
                 }
             }

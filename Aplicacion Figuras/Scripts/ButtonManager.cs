@@ -164,7 +164,7 @@ public class ButtonManager : MonoBehaviour
 				{
 					if (mandoRaton.GetComponent<PlayerControllerRaton>().isLocalPlayer)
 					{
-						mandoRaton.GetComponent<PlayerControllerRaton>().MoverClickado();
+						mandoRaton.GetComponent<PlayerControllerRaton>().CmdMoverClickado();
 					}
 				}
 			}
@@ -175,7 +175,7 @@ public class ButtonManager : MonoBehaviour
 			{
 				if (mandoRaton.GetComponent<PlayerControllerRaton>().isLocalPlayer)
 				{
-					mandoRaton.GetComponent<PlayerControllerRaton>().MoverClickado();
+					mandoRaton.GetComponent<PlayerControllerRaton>().CmdMoverClickado();
 				}
 			}
 		}

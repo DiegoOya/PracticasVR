@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 /// </summary>
 public class PlayerHTC : NetworkBehaviour {
 	
-    GameObject mandoIzq, mandoDer, figura, father;
+    GameObject mandoIzq, mandoDer, figura;
 
     private void Start()
     {
@@ -49,15 +49,15 @@ public class PlayerHTC : NetworkBehaviour {
         NetworkServer.Spawn(figura);
         figura.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
         RpcParent(figura,padre);
-        figura.GetComponent<NetworkIdentity>().RemoveClientAuthority(connectionToClient);
+        //figura.GetComponent<NetworkIdentity>().RemoveClientAuthority(connectionToClient);
     }
 
     // Se encarga de hacer al objeto hijo del mando que corresponda
     [ClientRpc]
     public void RpcParent(GameObject figura, string padre)
     {
-        figura.transform.SetParent(GameObject.FindGameObjectWithTag(padre).transform);
-        figura.GetComponent<Rigidbody>().isKinematic = true;
-        Debug.Log(figura.transform.parent.gameObject);
-    }
+		if(mandoDer.CompareTag(padre)) figura.transform.SetParent(mandoDer.transform);
+		else if(mandoIzq.CompareTag(padre)) figura.transform.SetParent(mandoIzq.transform);
+		figura.GetComponent<Rigidbody>().isKinematic = true;
+	}
 }

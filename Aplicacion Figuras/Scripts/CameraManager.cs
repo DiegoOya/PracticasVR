@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /*Esta clase controla en qué posición se coloca la cámara dependiendo de que vista seleccionemos*/
 public class CameraManager : MonoBehaviour
 {
-    public GameObject canvasPTodo, canvasVTodo, canvasFTodo, canvasOpcionesFigura, canvasRotacion, canvasMira;
+    public GameObject canvasPTodo, canvasVTodo, canvasFTodo, canvasOpcionesFigura, canvasMira;
     GameObject camHTC, camRaton;
     [HideInInspector]
     public int nmandos;
@@ -26,19 +26,17 @@ public class CameraManager : MonoBehaviour
                 canvasFTodo.SetActive(false);
                 canvasVTodo.SetActive(false);
                 //canvasOpcionesFigura.SetActive(false);
-                canvasRotacion.SetActive(false);
                 canvasMira.SetActive(false);
-                if (camRaton != null) camRaton.SetActive(false);
-                if (camHTC != null) camHTC.SetActive(true);
+                //if (camRaton != null) camRaton.SetActive(false);
+                //if (camHTC != null) camHTC.SetActive(true);
                 alzado_pulsado();
                 break;
             case 1: //Raton
                 canvasFTodo.SetActive(false);
                 canvasVTodo.SetActive(false);
                 //canvasOpcionesFigura.SetActive(false);
-                canvasRotacion.SetActive(false);
-                if (camHTC != null) camHTC.SetActive(false);
-                if (camRaton != null) camRaton.SetActive(true);
+                //if (camHTC != null) camHTC.SetActive(false);
+                //if (camRaton != null) camRaton.SetActive(true);
                 canvasMira.SetActive(true);
                 alzado_pulsado();
                 break;

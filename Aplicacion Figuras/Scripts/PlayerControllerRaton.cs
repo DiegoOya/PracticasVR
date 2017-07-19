@@ -92,7 +92,7 @@ public class PlayerControllerRaton : NetworkBehaviour
             }
         }
 
-        if (!Input.GetMouseButton(0)) //si dejamos de pulsar el botón izquierdo del ratón, se deja caer la figura
+        if (Input.GetMouseButtonUp(0)) //si dejamos de pulsar el botón izquierdo del ratón, se deja caer la figura
         {
 			if(transform.childCount > 1) figura = GetComponentInChildren<CompFigura>().gameObject;
             if (figura != null)
@@ -101,8 +101,8 @@ public class PlayerControllerRaton : NetworkBehaviour
                 {
                     if (figura.transform.parent.gameObject == this.gameObject)
                     {
-                        figura.GetComponent<Rigidbody>().isKinematic = false;
-                        figura.transform.SetParent(null);
+						//figura.GetComponent<Rigidbody>().isKinematic = false;
+						CmdNotParent(figura);
                     }
                 }
             }
@@ -110,7 +110,7 @@ public class PlayerControllerRaton : NetworkBehaviour
 
         if (bHit)
         {
-            if (Input.GetMouseButton(1)) //Si pulsamos botón derecho sobre una figura aparece su menú para poder mover o cambiar color
+            if (Input.GetMouseButtonDown(1)) //Si pulsamos botón derecho sobre una figura aparece su menú para poder mover o cambiar color
             {
                 if (hit.collider.gameObject.tag == "Figura")
                 {
@@ -171,13 +171,22 @@ public class PlayerControllerRaton : NetworkBehaviour
     }
 
     //Si se pulsa el botón mover, volvemos a hacer hija la figura del ratón
-    public void MoverClickado()
+	[Command]
+    public void CmdMoverClickado()
     {
-        seleccionada.transform.SetParent(this.gameObject.transform);
-    }
+		seleccionada.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
+		RpcMoverClickado();
+	}
 
-    //Dotamos a la figura de un color aleatorio
-    public void ColorClickado()
+	//Si se pulsa el botón mover, volvemos a hacer hija la figura del ratón
+	[ClientRpc]
+	public void RpcMoverClickado()
+	{
+		seleccionada.transform.SetParent(GameObject.FindGameObjectWithTag("Raton").transform);
+	}
+
+	//Dotamos a la figura de un color aleatorio
+	public void ColorClickado()
     {
         Color newColor = new Color(Random.value, Random.value, Random.value);
         seleccionada.GetComponent<MeshRenderer>().material.SetColor("_Color", newColor);
@@ -211,7 +220,7 @@ public class PlayerControllerRaton : NetworkBehaviour
         NetworkServer.Spawn(figura);
         figura.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
         RpcParent(figura, padre);
-        figura.GetComponent<NetworkIdentity>().RemoveClientAuthority(connectionToClient);
+        //figura.GetComponent<NetworkIdentity>().RemoveClientAuthority(connectionToClient);
     }
 
     // Se encarga de hacer al objeto hijo del mando que corresponda
@@ -221,4 +230,17 @@ public class PlayerControllerRaton : NetworkBehaviour
         figura.transform.SetParent(GameObject.FindGameObjectWithTag(padre).transform);
         figura.GetComponent<Rigidbody>().isKinematic = true;
     }
+
+	[Command]
+	void CmdNotParent(GameObject figura)
+	{
+		RpcNotParent(figura);
+		figura.GetComponent<NetworkIdentity>().RemoveClientAuthority(connectionToClient);
+	}
+
+	[ClientRpc]
+	void RpcNotParent(GameObject figura)
+	{
+		figura.transform.SetParent(null);
+	}
 }
